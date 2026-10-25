@@ -24,7 +24,9 @@ export default function CartPage() {
           <ul className="divide-y divide-line border-y border-line">
             {lines.map((l) => (
               <li key={l.key} className="grid grid-cols-[72px_1fr] gap-4 py-5 sm:grid-cols-[88px_1fr_auto_auto] sm:items-center">
-                <ProductArt product={findProduct(l.slug)!} inches={l.inches} className="block aspect-[4/5] w-full" />
+                <div className="aspect-[4/5] w-full bg-surface">
+                  <ProductArt product={findProduct(l.slug)!} className="block h-full w-full" />
+                </div>
                 <div className="min-w-0">
                   <Link href={`/shop/${l.slug}`} className="hover:text-gold-dark">{l.name}</Link>
                   {l.inches && <p className="text-sm text-muted">Length {l.inches}&quot;</p>}
