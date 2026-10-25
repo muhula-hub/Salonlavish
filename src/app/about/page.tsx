@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Photo } from "@/components/cards";
 import { HairArt } from "@/components/hair-art";
 import { store, stylists } from "@/lib/data";
 
@@ -22,7 +23,7 @@ export default function AboutPage() {
         </div>
       </div>
       <section className="container-x grid gap-10 py-14 lg:grid-cols-2 lg:items-center">
-        <HairArt kind="portrait" texture="Deep wave" inches={22} tone="#c9a77c" label="Founder portrait placeholder" seed="founder" className="block aspect-[4/5] w-full" />
+        <Photo name="burgundyBlazer" alt="Lavish Hairline model in the Malkia burgundy bob" sizes="(min-width: 1024px) 50vw, 100vw" className="aspect-[4/5] w-full" />
         <div className="space-y-4 text-lg text-muted">
           <p>
             {store.name} began with a simple frustration: hair that looked great online and disappointing in person.
@@ -32,11 +33,13 @@ export default function AboutPage() {
             Today we are a Nairobi salon and online shop. You can buy a wig, have it customised, coloured and installed, and come back
             for a refresh, all in one place.
           </p>
+          <p>Every order leaves in our black and gold gift bag, because getting your hair should feel like an occasion.</p>
           <p className="text-ink">Placeholder story. Replace with the founder&apos;s own words.</p>
         </div>
       </section>
       <section className="bg-surface py-14">
         <div className="container-x">
+          <Photo name="groupLaughing" alt="Four Lavish Hairline clients laughing together" sizes="100vw" className="mb-12 aspect-[16/9] w-full sm:aspect-[21/9]" />
           <h2 className="section-title mb-10">Why clients choose us</h2>
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {reasons.map((r) => (

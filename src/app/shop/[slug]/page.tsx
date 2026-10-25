@@ -32,9 +32,13 @@ export default async function ProductPage({ params }: PageProps<"/shop/[slug]">)
       <div className="mt-6 grid gap-10 lg:grid-cols-2">
         <div className="grid grid-cols-4 gap-3">
           <ProductArt product={product} className="col-span-4 block aspect-[4/5] w-full" />
-          {["front", "side", "detail", "back"].map((v, i) => (
-            <ProductArt key={v} product={product} view={v} inches={product.lengths?.[i % product.lengths.length]?.inches} className="block aspect-square w-full" />
-          ))}
+          {product.photos
+            ? product.photos.slice(1).map((p) => (
+                <ProductArt key={p} product={product} photo={p} className="col-span-2 block aspect-square w-full" />
+              ))
+            : ["front", "side", "detail", "back"].map((v, i) => (
+                <ProductArt key={v} product={product} view={v} inches={product.lengths?.[i % product.lengths.length]?.inches} className="block aspect-square w-full" />
+              ))}
         </div>
         <div className="flex flex-col gap-4 lg:sticky lg:top-32 lg:self-start">
           <p className="eyebrow">{category.name}</p>
