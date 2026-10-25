@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CategoryTile, Photo, ProductCard, Stars, Swatch } from "@/components/cards";
+import { CategoryTile, Photo, ProductCard, Stars } from "@/components/cards";
 import { categories, products, reviews, services, store } from "@/lib/data";
 import { money } from "@/lib/format";
 
@@ -13,7 +13,6 @@ export default function Home() {
     <>
       {/* Hero */}
       <section className="relative overflow-hidden bg-ink text-white">
-        <Swatch label="" tone="#3a2a22" className="absolute inset-0 opacity-90" />
         <div className="container-x relative grid gap-10 py-20 sm:py-28 lg:grid-cols-[1.1fr_1fr] lg:items-center">
           <div>
             <p className="eyebrow text-gold-soft">The Lavish Edit</p>

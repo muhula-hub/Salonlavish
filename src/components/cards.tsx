@@ -3,9 +3,6 @@ import Link from "next/link";
 import type { Category, Product, Service } from "@/lib/data";
 import { duration, money } from "@/lib/format";
 import { photos, type PhotoKey } from "@/lib/photos";
-import { HairArt } from "./hair-art";
-
-const shortLabel = (name: string) => name.replace(/\d+\s?ml/i, "").split(" ").slice(0, 2).join(" ");
 
 export function Photo({ name, alt, className = "", sizes = "(min-width: 1024px) 25vw, 50vw", priority, natural }: { name: PhotoKey; alt: string; className?: string; sizes?: string; priority?: boolean; natural?: boolean }) {
   const { width, height } = photos[name];
@@ -16,33 +13,10 @@ export function Photo({ name, alt, className = "", sizes = "(min-width: 1024px) 
   );
 }
 
-export function ProductArt({ product, inches, view = "", photo, className = "" }: { product: Product; inches?: number; view?: string; photo?: PhotoKey; className?: string }) {
+// A product's photo, or nothing when it has none yet.
+export function ProductArt({ product, photo, className = "" }: { product: Product; photo?: PhotoKey; className?: string }) {
   const name = photo ?? product.photos?.[0];
-  if (name) return <Photo name={name} alt={product.name} className={className} />;
-  return (
-    <HairArt
-      kind={product.art}
-      texture={product.texture}
-      inches={inches ?? product.lengths?.[Math.floor(product.lengths.length / 2)]?.inches ?? 18}
-      tone={product.tone}
-      label={shortLabel(product.name)}
-      seed={product.slug + view}
-      className={className}
-    />
-  );
-}
-
-// Plain colour block, used where no drawing fits.
-export function Swatch({ label, tone, className = "" }: { label: string; tone: string; className?: string }) {
-  return (
-    <div
-      aria-hidden
-      className={`relative grid place-items-center overflow-hidden font-display text-white/85 italic ${className}`}
-      style={{ background: `radial-gradient(circle at 30% 25%, color-mix(in srgb, ${tone} 55%, white), ${tone} 70%)` }}
-    >
-      {label}
-    </div>
-  );
+  return name ? <Photo name={name} alt={product.name} className={className} /> : null;
 }
 
 export function Stars({ rating, count }: { rating: number; count?: number }) {
@@ -74,9 +48,15 @@ export function ProductCard({ product }: { product: Product }) {
   return (
     <Link href={`/shop/${product.slug}`} className="group flex flex-col gap-2">
       <div className="relative">
-        <div className="overflow-hidden">
-          <ProductArt product={product} className="block aspect-[4/5] w-full transition-transform duration-500 group-hover:scale-[1.03]" />
-        </div>
+        {product.photos ? (
+          <div className="overflow-hidden">
+            <ProductArt product={product} className="block aspect-[4/5] w-full transition-transform duration-500 group-hover:scale-[1.03]" />
+          </div>
+        ) : (
+          <div className="flex aspect-[4/5] w-full flex-col justify-end border border-line bg-surface p-5 group-hover:border-gold">
+            <p className="text-sm text-muted">{product.description}</p>
+          </div>
+        )}
         {badge && (
           <span className={`absolute top-3 left-3 px-2 py-1 text-[11px] tracking-wider uppercase ${badge === "Sale" ? "bg-sale text-white" : "bg-white text-ink"}`}>
             {badge}
@@ -93,11 +73,7 @@ export function ProductCard({ product }: { product: Product }) {
 export function CategoryTile({ category }: { category: Category }) {
   return (
     <Link href={`/shop?category=${category.slug}`} className="group relative block overflow-hidden">
-      {category.photo ? (
-        <Photo name={category.photo} alt={category.name} className="aspect-[3/4] w-full transition-transform duration-500 group-hover:scale-105" />
-      ) : (
-      <HairArt kind={category.art} tone={category.tone} texture={category.slug === "extensions" ? "Body wave" : "Straight"} inches={20} label={category.name} seed={category.slug} className="block aspect-[3/4] w-full transition-transform duration-500 group-hover:scale-105" />
-      )}
+      <Photo name={category.photo} alt={category.name} className="aspect-[3/4] w-full transition-transform duration-500 group-hover:scale-105" />
       <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/60 to-transparent p-5 text-white">
         <h3 className="text-3xl">{category.name}</h3>
         <p className="mt-1 text-sm text-white/80">{category.blurb}</p>

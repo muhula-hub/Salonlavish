@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Photo } from "@/components/cards";
-import { HairArt } from "@/components/hair-art";
 import { store, stylists } from "@/lib/data";
 
 export const metadata: Metadata = { title: "About us" };
@@ -54,10 +53,9 @@ export default function AboutPage() {
       <section className="container-x py-14">
         <h2 className="section-title mb-8">Meet the stylists</h2>
         <div className="grid grid-cols-2 gap-5 lg:grid-cols-3">
-          {stylists.filter((s) => s.id !== "any").map((s, i) => (
-            <div key={s.id}>
-              <HairArt kind="portrait" texture={(["Straight", "Kinky curly", "Body wave"] as const)[i % 3]} inches={16} tone="#d8bf9c" label={`${s.name}, stylist`} seed={s.id} className="block aspect-square w-full" />
-              <p className="mt-3 text-lg">{s.name}</p>
+          {stylists.filter((s) => s.id !== "any").map((s) => (
+            <div key={s.id} className="border-t border-line pt-4">
+              <p className="text-lg">{s.name}</p>
               <p className="text-sm text-muted">{s.does.join(", ")}</p>
             </div>
           ))}
