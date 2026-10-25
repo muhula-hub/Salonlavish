@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+/* Lavish Hairline: ivory and espresso with a champagne-gold accent.
+   Editorial serif for headlines, clean geometric sans for everything else. */
+@theme {
+  --color-bg: #faf6f1;
+  --color-surface: #ffffff;
+  --color-ink: #1a1412;
+  --color-muted: #6f645b;
+  --color-gold: #a8834f;
+  --color-gold-dark: #7f6136;
+  --color-gold-soft: #f2e9dc;
+  --color-line: #e7ddcf;
+  --color-sale: #a3412f;
+  --font-display: var(--font-cormorant), "Times New Roman", serif;
+  --font-sans: var(--font-jost), system-ui, sans-serif;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+@layer components {
+  .container-x { @apply mx-auto w-full max-w-7xl px-4 sm:px-6; }
+  .eyebrow { @apply text-xs font-medium tracking-[0.2em] text-gold-dark uppercase; }
+  .btn { @apply inline-flex items-center justify-center gap-2 border border-ink bg-ink px-6 py-3 text-sm font-medium tracking-wider text-white uppercase transition-colors hover:border-gold-dark hover:bg-gold-dark disabled:cursor-not-allowed disabled:opacity-40; }
+  .btn-outline { @apply inline-flex items-center justify-center gap-2 border border-ink bg-transparent px-6 py-3 text-sm font-medium tracking-wider text-ink uppercase transition-colors hover:bg-ink hover:text-white; }
+  .btn-light { @apply inline-flex items-center justify-center gap-2 border border-white bg-white px-6 py-3 text-sm font-medium tracking-wider text-ink uppercase transition-colors hover:bg-gold-soft; }
+  .link-arrow { @apply inline-flex items-center gap-1 border-b border-ink pb-0.5 text-sm font-medium tracking-wider uppercase hover:border-gold hover:text-gold-dark; }
+  .card { @apply flex flex-col gap-2 border border-line bg-surface p-5; }
+  .chip { @apply cursor-pointer border border-line bg-surface px-4 py-1.5 text-sm transition-colors hover:border-ink; }
+  .chip-active { @apply border-ink bg-ink text-white; }
+  .field { @apply flex flex-col gap-1.5; }
+  .label { @apply text-sm font-medium; }
+  .input { @apply w-full border border-line bg-surface px-3.5 py-2.5 focus:border-gold focus:outline-2 focus:outline-gold/40; }
+  .page-head { @apply border-b border-line pt-10 pb-8 sm:pt-14; }
+  .section-title { @apply text-4xl sm:text-5xl; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; scroll-behavior: auto !important; }
+}
