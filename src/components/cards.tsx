@@ -1,11 +1,24 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { Category, Product, Service } from "@/lib/data";
 import { duration, money } from "@/lib/format";
+import { photos, type PhotoKey } from "@/lib/photos";
 import { HairArt } from "./hair-art";
 
 const shortLabel = (name: string) => name.replace(/\d+\s?ml/i, "").split(" ").slice(0, 2).join(" ");
 
-export function ProductArt({ product, inches, view = "", className = "" }: { product: Product; inches?: number; view?: string; className?: string }) {
+export function Photo({ name, alt, className = "", sizes = "(min-width: 1024px) 25vw, 50vw", priority, natural }: { name: PhotoKey; alt: string; className?: string; sizes?: string; priority?: boolean; natural?: boolean }) {
+  const { width, height } = photos[name];
+  return (
+    <div className={`relative overflow-hidden ${className}`} style={natural ? { aspectRatio: `${width} / ${height}` } : undefined}>
+      <Image src={photos[name]} alt={alt} fill sizes={sizes} priority={priority} placeholder="blur" className="object-cover object-[50%_20%]" />
+    </div>
+  );
+}
+
+export function ProductArt({ product, inches, view = "", photo, className = "" }: { product: Product; inches?: number; view?: string; photo?: PhotoKey; className?: string }) {
+  const name = photo ?? product.photos?.[0];
+  if (name) return <Photo name={name} alt={product.name} className={className} />;
   return (
     <HairArt
       kind={product.art}
@@ -80,7 +93,11 @@ export function ProductCard({ product }: { product: Product }) {
 export function CategoryTile({ category }: { category: Category }) {
   return (
     <Link href={`/shop?category=${category.slug}`} className="group relative block overflow-hidden">
+      {category.photo ? (
+        <Photo name={category.photo} alt={category.name} className="aspect-[3/4] w-full transition-transform duration-500 group-hover:scale-105" />
+      ) : (
       <HairArt kind={category.art} tone={category.tone} texture={category.slug === "extensions" ? "Body wave" : "Straight"} inches={20} label={category.name} seed={category.slug} className="block aspect-[3/4] w-full transition-transform duration-500 group-hover:scale-105" />
+      )}
       <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/60 to-transparent p-5 text-white">
         <h3 className="text-3xl">{category.name}</h3>
         <p className="mt-1 text-sm text-white/80">{category.blurb}</p>

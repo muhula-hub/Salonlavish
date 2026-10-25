@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ServiceRow } from "@/components/cards";
+import { Photo, ServiceRow } from "@/components/cards";
 import { services, store } from "@/lib/data";
 
 export const metadata: Metadata = { title: "Salon services and prices" };
@@ -26,6 +26,7 @@ export default function ServicesPage() {
         </div>
       </div>
       <div className="container-x">
+        <Photo name="groupWaves" alt="Three clients with wave installs done at the salon" sizes="100vw" className="mt-10 aspect-[16/9] w-full sm:aspect-[21/9]" />
         {groups.map((g) => (
           <section key={g} id={g.split(" ")[0].toLowerCase()} className="scroll-mt-32 pt-12">
             <h2 className="section-title">{g}</h2>

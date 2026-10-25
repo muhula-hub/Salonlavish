@@ -23,6 +23,7 @@ export const store = {
 };
 
 import type { ArtKind } from "@/components/hair-art";
+import type { PhotoKey } from "./photos";
 
 // ---------- Shop ----------
 
@@ -32,11 +33,12 @@ export type Category = {
   blurb: string;
   tone: string; // placeholder tile colour until real photos exist
   art: ArtKind;
+  photo?: PhotoKey;
 };
 
 export const categories: Category[] = [
-  { slug: "wigs", name: "Wigs", blurb: "Natural-looking units, ready to wear or custom built.", tone: "#3b2a24", art: "wig" },
-  { slug: "extensions", name: "Hair Extensions", blurb: "Bundles, closures and frontals for length and volume.", tone: "#6b4b3a", art: "bundles" },
+  { slug: "wigs", name: "Wigs", blurb: "Natural-looking units, ready to wear or custom built.", tone: "#3b2a24", art: "wig", photo: "looseWave" },
+  { slug: "extensions", name: "Hair Extensions", blurb: "Bundles, closures and frontals for length and volume.", tone: "#6b4b3a", art: "bundles", photo: "curlyFrontBack" },
   { slug: "hair-care", name: "Hair Care", blurb: "Wash, condition and protect between appointments.", tone: "#a57c5b", art: "bottle" },
   { slug: "styling", name: "Styling Essentials", blurb: "Tools and finishers for a flawless install.", tone: "#c7a27c", art: "spray" },
 ];
@@ -55,7 +57,8 @@ export type Product = {
   bestSeller?: boolean;
   readyToShip?: boolean;
   tone: string;
-  art: ArtKind; // which sample drawing to show until real photos exist
+  art: ArtKind; // sample drawing, shown when there is no photo
+  photos?: PhotoKey[]; // first one is the main image
   description: string;
   details: string[];
 };
@@ -65,28 +68,82 @@ const lengths = (base: number, step: number, from = 12, to = 26) =>
 
 export const products: Product[] = [
   {
-    slug: "amani-bone-straight-wig", name: "Amani bone straight wig", category: "wigs", texture: "Straight",
+    slug: "amani-bone-straight-wig", name: "Amani bone straight wig", photos: ["longStraight", "longStraightFront", "straightProfile", "groupStraight"], category: "wigs", texture: "Straight",
     lengths: lengths(24500, 2500, 14, 26), price: 24500, rating: 4.9, reviews: 38, stock: 6, bestSeller: true, readyToShip: true,
     tone: "#2e211c", art: "wig", description: "Silky bone straight 13x4 HD lace frontal wig with a pre-plucked hairline.",
     details: ["100% human hair, 180% density", "13x4 HD lace, pre-plucked with baby hair", "Adjustable straps and combs", "Can be dyed and heat styled"],
   },
   {
-    slug: "zuri-body-wave-wig", name: "Zuri body wave wig", category: "wigs", texture: "Body wave",
+    slug: "zuri-body-wave-wig", name: "Zuri honey body wave wig", photos: ["honeyWave", "honeyWaveSmile", "groupBodyWave"], category: "wigs", texture: "Body wave",
     lengths: lengths(22000, 2000, 16, 26), price: 22000, compareAt: 25000, rating: 4.8, reviews: 52, stock: 9, bestSeller: true, readyToShip: true,
-    tone: "#4a332a", art: "wig", description: "Soft, bouncy body wave on a glueless 5x5 closure for easy everyday wear.",
+    tone: "#4a332a", art: "wig", description: "Soft, bouncy body wave in a warm honey blend with darker roots, on a glueless 5x5 closure.",
     details: ["100% human hair, 180% density", "5x5 HD lace closure, glueless", "Wear straight out of the box", "Holds curls well"],
   },
   {
-    slug: "nia-kinky-curly-wig", name: "Nia kinky curly wig", category: "wigs", texture: "Kinky curly",
+    slug: "nia-kinky-curly-wig", name: "Nia deep curly wig", category: "wigs", texture: "Deep wave", photos: ["deepCurly", "curlyFloral", "curlyLong", "curlyDuo", "curlyDuoLaugh"],
     lengths: lengths(26000, 2500, 14, 22), price: 26000, rating: 5, reviews: 21, stock: 3, bestSeller: true,
-    tone: "#3d2b22", art: "wig", description: "Full, natural-textured curls that blend with type 4 hair.",
+    tone: "#3d2b22", art: "wig", description: "Full, bouncy curls with lots of volume and a natural-looking hairline.",
     details: ["100% human hair, 200% density", "13x4 lace frontal", "Blends with natural 4a to 4c hair", "Refresh with water and leave-in"],
   },
   {
-    slug: "malkia-bob-wig", name: "Malkia blunt bob", category: "wigs", texture: "Straight",
+    slug: "malkia-bob-wig", name: "Malkia burgundy bob", photos: ["burgundyBob", "burgundyBobSmile", "burgundyBlazer", "groupBobsSmile"], category: "wigs", texture: "Straight",
     lengths: [{ inches: 10, price: 15500 }, { inches: 12, price: 17000 }], price: 15500, compareAt: 18000, rating: 4.7, reviews: 44, stock: 12, readyToShip: true,
-    tone: "#251a16", art: "bob", description: "A sharp, sleek bob with a 4x4 closure. Our quickest install.",
+    tone: "#251a16", art: "bob", description: "A sleek, shoulder-length bob in rich burgundy with a 4x4 closure. Our quickest install.",
     details: ["100% human hair", "4x4 lace closure", "Blunt cut, ready to wear", "Lightweight cap for all-day comfort"],
+  },
+  {
+    slug: "shaba-copper-bob", name: "Shaba copper bob", category: "wigs", texture: "Straight", photos: ["copperBobFront", "copperBob", "copperBobBack", "groupBobsSmile"],
+    lengths: [{ inches: 12, price: 17500 }, { inches: 14, price: 19000 }], price: 17500, rating: 4.9, reviews: 27, stock: 7, bestSeller: true, readyToShip: true,
+    tone: "#7a3f22", art: "bob", description: "Glossy copper with soft dark roots, cut into a sleek collarbone bob.",
+    details: ["100% human hair, 180% density", "13x4 HD lace frontal", "Pre-coloured copper with shadow root", "Ready to wear"],
+  },
+  {
+    slug: "imani-sleek-bob", name: "Imani sleek black bob", category: "wigs", texture: "Straight", photos: ["sleekBob", "blackBobSide", "blackBobBack", "groupBobsGlance"],
+    lengths: [{ inches: 12, price: 14500 }, { inches: 14, price: 16000 }], price: 14500, rating: 4.8, reviews: 35, stock: 10, readyToShip: true,
+    tone: "#1f1714", art: "bob", description: "Natural black, silky straight and polished. An everyday classic.",
+    details: ["100% human hair", "5x5 HD lace closure", "Glueless with adjustable band", "Can be curled or flat ironed"],
+  },
+  {
+    slug: "neema-loose-wave-wig", name: "Neema loose wave wig", category: "wigs", texture: "Body wave", photos: ["looseWave", "waveSmile", "looseWaveGrey", "waveProfile", "waveBack"],
+    lengths: lengths(23000, 2000, 16, 26), price: 23000, rating: 4.9, reviews: 31, stock: 8, bestSeller: true,
+    tone: "#1b1310", art: "wig", description: "Big, soft, voluminous waves in natural black with a middle part.",
+    details: ["100% human hair, 200% density", "13x4 HD lace frontal", "Holds its wave after washing", "Pre-plucked hairline"],
+  },
+  {
+    slug: "zawadi-fringe-wig", name: "Zawadi fringe wig", category: "wigs", texture: "Straight", photos: ["fringeBob", "auburnFringe", "groupFringe"],
+    lengths: lengths(16000, 1500, 12, 20), price: 16000, rating: 4.7, reviews: 19, stock: 11, readyToShip: true,
+    tone: "#5a2e1d", art: "wig", description: "Straight hair with a full, face-framing fringe in natural brown or auburn. No lace to melt.",
+    details: ["100% human hair", "Glueless, beginner friendly", "Available in natural black, chestnut and auburn", "Wear in minutes"],
+  },
+  {
+    slug: "amara-burgundy-straight-wig", name: "Amara dark burgundy straight wig", category: "wigs", texture: "Straight", photos: ["burgundyLong"],
+    lengths: lengths(25500, 2500, 18, 26), price: 25500, rating: 4.8, reviews: 16, stock: 5, readyToShip: true,
+    tone: "#3a1418", art: "wig", description: "Long, silky straight hair in a deep wine shade that catches the light.",
+    details: ["100% human hair, 180% density", "13x4 HD lace frontal", "Deep burgundy colour, done in-house", "Side or middle part"],
+  },
+  {
+    slug: "asali-honey-bob", name: "Asali honey blonde bob", category: "wigs", texture: "Straight", photos: ["honeyBob", "honeyBobFront", "groupBobsSmile"],
+    lengths: [{ inches: 10, price: 16500 }, { inches: 12, price: 18000 }], price: 16500, compareAt: 19000, rating: 4.9, reviews: 23, stock: 6, readyToShip: true,
+    tone: "#b07a3c", art: "bob", description: "A bright honey blonde blunt bob with a soft side part. Instant glow.",
+    details: ["100% human hair", "5x5 HD lace closure", "Pre-coloured honey blonde", "Glueless, ready to wear"],
+  },
+  {
+    slug: "shani-black-body-wave-wig", name: "Shani black body wave wig", category: "wigs", texture: "Body wave", photos: ["blackBodyWave", "bodyWaveDuo", "groupWaves"],
+    lengths: lengths(21000, 2000, 18, 28), price: 21000, rating: 4.8, reviews: 29, stock: 9, readyToShip: true,
+    tone: "#1a1210", art: "wig", description: "Glossy natural black with deep, defined body waves and a side part.",
+    details: ["100% human hair, 180% density", "13x4 HD lace frontal", "Pre-plucked with baby hair", "Holds curls for days"],
+  },
+  {
+    slug: "malaika-chestnut-straight-wig", name: "Malaika chestnut straight wig", category: "wigs", texture: "Straight", photos: ["brownStraight", "whiteBlazer", "laceDressStraight", "highlightStraight"],
+    lengths: lengths(22500, 2000, 16, 24), price: 22500, rating: 4.9, reviews: 14, stock: 6,
+    tone: "#4a2c1e", art: "wig", description: "Soft chestnut brown, silky straight and polished. Office to evening.",
+    details: ["100% human hair, 180% density", "5x5 HD lace closure", "Natural chestnut colour", "Middle part"],
+  },
+  {
+    slug: "dhahabu-blonde-body-wave-wig", name: "Dhahabu blonde body wave wig", category: "wigs", texture: "Body wave", photos: ["blondeBodyWave"],
+    lengths: lengths(27500, 2500, 18, 26), price: 27500, rating: 5, reviews: 12, stock: 4, bestSeller: true,
+    tone: "#b89a6a", art: "wig", description: "Soft ash blonde balayage over a darker root, in big glamorous waves.",
+    details: ["100% human hair, 200% density", "13x4 HD lace frontal", "Hand-coloured blonde balayage", "Side part, pre-plucked"],
   },
   {
     slug: "raw-straight-bundles", name: "Raw straight bundles", category: "extensions", texture: "Straight",

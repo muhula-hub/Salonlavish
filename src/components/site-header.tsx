@@ -10,6 +10,7 @@ import { useCart } from "./cart";
 const links = [
   { href: "/shop", label: "Shop" },
   { href: "/shop?category=wigs", label: "Wigs" },
+  { href: "/lookbook", label: "Lookbook" },
   { href: "/services", label: "Salon" },
   { href: "/booking", label: "Book" },
   { href: "/about", label: "About" },

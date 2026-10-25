@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { CategoryTile, ProductCard, Stars, Swatch } from "@/components/cards";
-import { HairArt } from "@/components/hair-art";
+import { CategoryTile, Photo, ProductCard, Stars, Swatch } from "@/components/cards";
 import { categories, products, reviews, services, store } from "@/lib/data";
 import { money } from "@/lib/format";
 
@@ -33,7 +32,7 @@ export default function Home() {
               </Link>
             </div>
           </div>
-          <HairArt kind="wig" texture="Body wave" inches={24} tone="#c9a77c" label="Body wave wig on a mannequin" seed="hero" className="hidden aspect-[4/5] max-h-[520px] justify-self-end lg:block lg:w-4/5" />
+          <Photo name="honeyWaveSmile" alt="Model wearing the Zuri honey body wave wig" priority sizes="(min-width: 1024px) 40vw, 100vw" className="aspect-[4/5] max-h-[560px] w-full justify-self-end sm:w-4/5 lg:w-4/5" />
         </div>
       </section>
 
@@ -75,7 +74,7 @@ export default function Home() {
       {/* Salon */}
       <section className="bg-gold-soft py-16 sm:py-24">
         <div className="container-x grid gap-12 lg:grid-cols-2 lg:items-center">
-          <HairArt kind="salon" tone="#c9a77c" label="Wigs styled in the salon" seed="salon" className="block aspect-[4/3] w-full" />
+          <Photo name="groupBodyWave" alt="Three clients in body wave units styled at the salon" sizes="(min-width: 1024px) 50vw, 100vw" className="aspect-[4/3] w-full" />
           <div>
             <p className="eyebrow">The salon</p>
             <h2 className="section-title mt-2">Bought it? We&apos;ll install it.</h2>
@@ -104,13 +103,32 @@ export default function Home() {
         <div>
           <p className="eyebrow">Our story</p>
           <h2 className="section-title mt-2">Beauty in every detail</h2>
+          <Photo name="giftBags" alt="Lavish Hairline gift bags with the gold crown logo" sizes="(min-width: 1024px) 40vw, 100vw" className="mt-8 aspect-[3/2] w-full" />
         </div>
         <div className="space-y-4 text-lg text-muted">
           <p>
             Hair is more than a look. It changes how you walk into a room. {store.name} started with one promise: hair that
-            looks like yours, feels like yours and lasts.
+            looks like yours, feels like yours and lasts. Every order leaves the salon in our signature black and gold gift bag.
           </p>
           <Link className="link-arrow text-ink" href="/about">Discover {store.name} &rarr;</Link>
+        </div>
+      </section>
+
+      {/* Lookbook */}
+      <section className="pb-16 sm:pb-24">
+        <div className="container-x mb-8 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="eyebrow">The lookbook</p>
+            <h2 className="section-title mt-2">Bobs, waves and curls</h2>
+          </div>
+          <Link className="link-arrow" href="/lookbook">See the full lookbook &rarr;</Link>
+        </div>
+        <div className="container-x grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
+          <Link href="/shop/malkia-bob-wig" className="col-span-2 lg:row-span-2"><Photo name="groupBobsSmile" alt="Four models in copper, black, burgundy and blonde bobs" sizes="(min-width: 1024px) 50vw, 100vw" className="aspect-[3/2] w-full lg:aspect-auto lg:h-full" /></Link>
+          <Link href="/shop/nia-kinky-curly-wig"><Photo name="deepCurly" alt="Nia deep curly wig" className="aspect-[4/5] w-full" /></Link>
+          <Link href="/shop/shaba-copper-bob"><Photo name="copperBob" alt="Shaba copper bob" className="aspect-[4/5] w-full" /></Link>
+          <Link href="/shop/zawadi-fringe-wig"><Photo name="groupFringe" alt="Zawadi fringe wig in three shades" className="aspect-[4/5] w-full" /></Link>
+          <Link href="/shop/neema-loose-wave-wig"><Photo name="looseWave" alt="Neema loose wave wig" className="aspect-[4/5] w-full" /></Link>
         </div>
       </section>
 
@@ -137,6 +155,7 @@ export default function Home() {
 
       {/* Closing CTA */}
       <section className="container-x pt-16 text-center sm:pt-24">
+        <Photo name="groupCurly" alt="Four models in curly and wavy units" sizes="100vw" className="mb-12 aspect-[16/9] w-full sm:aspect-[21/9]" />
         <h2 className="section-title">Find your perfect look</h2>
         <p className="mx-auto mt-3 max-w-md text-muted">Not sure which unit or length suits you? Book a 30 minute consultation, or message us on WhatsApp.</p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
